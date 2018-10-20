@@ -13,12 +13,19 @@
 
 package kin.devplatform.core.network.model;
 
+import com.google.gson.Gson;
+import com.google.gson.TypeAdapter;
+import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 import java.util.Objects;
 
 /**
  * an error
  */
+@JsonAdapter(Error.Adapter.class)
 public class Error {
 
 	@SerializedName("error")
@@ -39,7 +46,33 @@ public class Error {
 		return this;
 	}
 
+	public static class Adapter extends TypeAdapter<Error> {
 
+		@Override
+		public void write(final JsonWriter jsonWriter, final Error error) throws IOException {
+			jsonWriter.beginObject();
+			jsonWriter.name("error").value(error.getError());
+			jsonWriter.name("message").value(error.getMessage());
+			jsonWriter.name("code").value(error.getCode());
+			jsonWriter.endObject();
+		}
+
+
+		@Override
+		public Error read(final JsonReader jsonReader) throws IOException {
+			String value = jsonReader.nextString();
+
+
+				try {
+				Error error = new Gson().fromJson(value, Error.class);
+				return error;
+				}
+				catch(Exception e)
+				{
+					return null;
+				}
+		}
+	}
 	/**
 	 * Get error
 	 *
@@ -109,6 +142,8 @@ public class Error {
 	public int hashCode() {
 		return Objects.hash(error, message, code);
 	}
+
+
 }
 
 

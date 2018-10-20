@@ -15,6 +15,7 @@ package kin.devplatform.network.model;
 
 import static kin.devplatform.core.util.StringUtil.toIndentedString;
 
+import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -83,6 +84,7 @@ public class Order {
 				String value = jsonReader.nextString();
 				return Status.fromValue(String.valueOf(value));
 			}
+
 		}
 	}
 
@@ -156,6 +158,7 @@ public class Order {
 	private String callToAction = null;
 	@SerializedName("amount")
 	private Integer amount = null;
+	@JsonAdapter(Status.Adapter.class)
 	@SerializedName("error")
 	private Error error = null;
 
