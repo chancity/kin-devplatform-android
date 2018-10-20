@@ -158,7 +158,6 @@ public class Order {
 	private String callToAction = null;
 	@SerializedName("amount")
 	private Integer amount = null;
-	@JsonAdapter(Status.Adapter.class)
 	@SerializedName("error")
 	private Error error = null;
 
